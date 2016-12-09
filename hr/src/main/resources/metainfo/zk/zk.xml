@@ -1,0 +1,18 @@
+<zk>
+    <config-name>belian-config</config-name>
+	<richlet>
+	    <richlet-name>Desktop</richlet-name>
+	    <richlet-class>com.shara.hr.ui.Desktop</richlet-class>
+	</richlet>
+	<richlet-mapping>
+	    <richlet-name>Desktop</richlet-name>
+	    <url-pattern>/desktop</url-pattern>
+	</richlet-mapping>
+	
+	<!-- 
+	<library-property>
+    	<name>org.zkoss.theme.preferred</name>
+    	<value>amelia</value>
+	</library-property>	
+	 -->
+</zk>

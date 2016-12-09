@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+Design by http://www.bluewebtemplates.com
+Released for free under a Creative Commons Attribution 3.0 License
+-->
+<html 	xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Sistem Informasi Kepegawaian Fakultas Hukum UNTAN</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link th:href="@{/css/jquery.jqplot.min.css}" rel="stylesheet" type="text/css" />
+	<script th:src="@{/js/jquery.js}"/>
+	<script th:src="@{/js/jquery.jqplot.min.js}"/>
+	<script th:src="@{/js/jqplot.pieRenderer.js}"/>
+	<script th:src="@{/js/jqplot.enhancedPieLegendRenderer.js}"/>
+	
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		$(function(){
+			
+			var male = [[${gender.male}]];
+			var female = [[${gender.female}]];
+			
+			data1 = [[
+						['Pria', male ],
+						['Wanita', female]
+						]];
+		    toolTip1 = ['Pria', 'Wanita'];
+		 
+		    var plot1 = jQuery.jqplot('chart1', 
+		        data1,
+		        {
+		            title: 'Tenaga Kerja berdasarkan jenis kelamin', 
+		            seriesDefaults: {
+		                shadow: false, 
+		                renderer: jQuery.jqplot.PieRenderer, 
+		                rendererOptions: { padding: 2, sliceMargin: 2, showDataLabels: true }
+		            },
+		            legend: {
+		                show: true,
+		                location: 'e',
+		                renderer: $.jqplot.EnhancedPieLegendRenderer,
+		                rendererOptions: {
+		                    numberColumns: 1,
+		                    toolTips: toolTip1
+		                }
+		            },
+		        }
+		    );
+		});
+		/*]]>*/
+	</script>
+</head>
+<body>
+<div id="chart1" style="color:orange;font-weight: bolder;font-size: 16px;"></div>
+</body>
+</html>

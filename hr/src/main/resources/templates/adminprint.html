@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html 	xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<style>
+		.body{
+			padding: 0;
+			margin: 0;
+		}
+		
+		table{
+			width: 100%;
+			border: none;
+		}
+		
+		table.show{
+			width: 100%;
+			border-collapse: collapse;
+		}
+		
+		table.show td{
+			border: 1px solid black;
+			padding: 2px;
+		}
+		
+		table.show th{
+			border: 1px solid black;
+			padding: 2px;
+		}
+		
+		@media screen{
+			table.show thead{
+				background-color: black;
+				color: white;
+			}
+		}
+	</style>
+</head>
+<body th:inline="text">
+	<table>
+	<thead>
+		<tr><th colspan="5" align="center">DAFTAR RIWAYAT HIDUP DAN IDENTITAS</th></tr>
+		<tr>
+			<th width="3%">&nbsp;</th>
+			<th width="25%">&nbsp;</th>
+			<th width="1%">&nbsp;</th>
+			<th>&nbsp;</th>
+			<th>&nbsp;</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>01</td>
+			<td>Nama</td>
+			<td>:</td>
+			<td colspan="2">[[${emp.nama}]]</td>
+		</tr>
+		<tr>
+			<td>02</td>
+			<td>NIP/NIY</td>
+			<td>:</td>
+			<td colspan="2">[[${emp.nip}]]</td>
+		</tr>
+		<tr>
+			<td>03</td>
+			<td>Tempat/Tanggal Lahir</td>
+			<td>:</td>
+			<td colspan="2">[[${emp.tempatLahir}]],&nbsp;[[${#dates.format(emp.tglLahir,'dd-MM-yyyy')}]]</td>
+		</tr>
+		<tr>
+			<td>04</td>
+			<td>Agama</td>
+			<td>:</td>
+			<td colspan="2">[[${emp.agama}]]</td>
+		</tr>
+		<tr>
+			<td>05</td>
+			<td>Jenis Kelamin</td>
+			<td>:</td>
+			<td colspan="2">[[${emp.gender}]]</td>
+		</tr>
+		<tr>
+			<td>06</td>
+			<td>Golongan Terakhir</td>
+			<td>:</td>
+			<td colspan="2">[[${emp.step}?${emp.step.note}:'-']]</td>
+		</tr>
+		<tr>
+			<td>07</td>
+			<td>TMT</td>
+			<td>:</td>
+			<td colspan="2">[[${emp.step}?${#dates.format(emp.step.start,'dd-MM-yyyy')}:'-']]</td>
+		</tr>
+		<tr>
+			<td>08</td>
+			<td>Jabatan</td>
+			<td>:</td>
+			<td colspan="2">[[${emp.path}?${emp.path.note}:'-']]</td>
+		</tr>
+		<tr>
+			<td>9</td>
+			<td>TMT</td>
+			<td>:</td>
+			<td colspan="2">[[${emp.path}?${#dates.format(emp.path.start,'dd-MM-yyyy')}:'-']]</td>
+		</tr>
+		<tr>
+			<td>10</td>
+			<td>Alamat</td>
+			<td>:</td>
+			<td colspan="2">[[${emp.alamat}]]</td>
+		</tr>
+		<tr>
+			<td>11</td>
+			<td>No Telp/Fax/HP</td>
+			<td>:</td>
+			<td colspan="2">[[${emp.kontak}]]</td>
+		</tr>
+		<tr>
+			<td>12</td>
+			<td>Keluarga</td>
+			<td>:</td>
+			<td align="left" style="font-weight: bolder;">Nama</td>
+			<td align="left" style="font-weight: bolder;">Tempat, Taggal Lahir</td>
+		</tr>
+		<tr th:each="fam:${emp.familys}">
+			<td>&nbsp;</td>
+			<td>[[${fam.type}]]</td>
+			<td>:</td>
+			<td>[[${fam.name}]]</td>
+			<td>[[${fam.birthPlace}?${fam.birthPlace}:'']],&nbsp;[[${fam.birthDate}?${#dates.format(fam.birthDate,'dd-MM-yyyy')}:'']]</td>
+		</tr>
+		<tr><td colspan="5">&nbsp;</td></tr>
+		<tr>
+			<td>13</td>
+			<td colspan="4" style="font-weight: bolder;">Riwayat Golongan</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td colspan="4" align="left">
+				<table class="show">
+				<thead>
+				<tr>
+					<th>TMT</th>
+					<th>Golongan</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr th:each="sec:${emp.workSteps}">
+					<td width="10%">[[${#dates.format(sec.start,'dd-MM-yyyy')}]]</td>
+					<td width="30%">[[${sec.note}]]</td>
+				</tr>
+				</tbody>
+				</table>
+			</td>
+		</tr>
+		<tr><td colspan="5">&nbsp;</td></tr>
+		<tr>
+			<td>14</td>
+			<td colspan="4" style="font-weight: bolder;">Riwayat Jabatan</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td colspan="4" align="left">
+				<table class="show">
+				<thead>
+				<tr>
+					<th>TMT</th>
+					<th>Jabatan</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr th:each="sec:${emp.careerPaths}">
+					<td width="10%">[[${#dates.format(sec.start,'dd-MM-yyyy')}]]</td>
+					<td width="30%">[[${sec.note}]]</td>
+				</tr>
+				</tbody>
+				</table>
+			</td>
+		</tr>
+		<tr><td colspan="5">&nbsp;</td></tr>
+		<tr>
+			<td>15</td>
+			<td colspan="4" style="font-weight: bolder;">Riwayat SK</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td colspan="4" align="left">
+				<table class="show">
+				<thead>
+				<tr>
+					<th>TMT</th>
+					<th>Deskripsi</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr th:each="sec:${emp.decrees}">
+					<td width="10%">[[${#dates.format(sec.start,'dd-MM-yyyy')}]]</td>
+					<td width="30%">[[${sec.note}]]</td>
+				</tr>
+				</tbody>
+				</table>
+			</td>
+		</tr>
+		<tr><td colspan="5">&nbsp;</td></tr>
+		<tr>
+			<td>16</td>
+			<td colspan="4" style="font-weight: bolder;">Riwayat Pendidikan</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td colspan="4" align="left">
+				<table class="show">
+				<thead>
+				<tr>
+					<th>Jenis</th>
+					<th width="40%">Nama Perguruan Tinggi</th>
+					<th width="5%">Thn Masuk</th>
+					<th width="5%">Thn Lulus</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr th:each="edu:${emp.educations}">
+					<td>[[${edu}?${edu.level}]]</td>
+					<td>[[${edu}?${edu.name}]]</td>
+					<td>[[${edu}?${edu.yearStart}]]</td>
+					<td>[[${edu}?${edu.yearEnd}]]</td>
+				</tr>
+				</tbody>
+				</table>
+			</td>
+		</tr>
+	</tbody>
+	</table>
+</body>
+</html>

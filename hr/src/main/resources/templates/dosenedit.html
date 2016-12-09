@@ -1,0 +1,540 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+Design by http://www.bluewebtemplates.com
+Released for free under a Creative Commons Attribution 3.0 License
+-->
+<html 	xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Sistem Informasi Kepegawaian Fakultas Hukum UNTAN</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+	<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" th:href="@{/css/jquery-ui.theme.min.css}"/>
+	<link rel="stylesheet" th:href="@{/css/jquery-ui.min.css}"/>
+	<script th:src="@{/js/jquery.js}"/>
+	<script th:src="@{/js/jquery-ui.min.js}"/>
+	<style>
+		label{
+			display:block;
+			width: 125px;
+			margin-top: 10px;
+			font-weight: bolder;
+			background-color: gray;
+			color: white;
+		}
+	</style>
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+		$(document).ready(function(){
+			
+			$(".form-group").controlgroup({"direction": "vertical"});
+			$("#tglLahir").datepicker({dateFormat:'dd-mm-yy'});
+			$(".dates").datepicker({dateFormat:'dd-mm-yy'});
+			
+			$("#tabs").tabs();
+			
+			$("#closeme").click(function(){
+				$('<form method="post"/>').attr("action",$(this).attr("title")).submit();
+			});
+			
+			$("#print").click(function(){
+				window.open(/*[[@{/dosenprint(id=${emp.id},type=${type})}]]*/','/*[[${emp.nama}]]*/,width=800,height=600);
+			});
+			
+			$("#posAdd").click(function(){
+				var bodi = $("#posBody");
+				if(bodi){
+					var check = $('<input type="checkbox" class="poschecks" name="poschecks" style="width:15px;"/>');
+					var secname = $('<input name="secnames" style="width:98%;"/>');
+					var start = $('<input name="secstarts" class="dates" style="width:98%;"/>');
+					var pos = $('<input name="posnames" style="width:98%;"/>');
+					var end = $('<input name="posstarts" class="dates" style="width:98%;"/>');
+					var expyears = $('<input name="expyears" style="width:98%;"/>');
+					var expmonth = $('<input name="expmonths" style="width:98%;"/>');
+					var img = $('<a href="#" disabled="true">&nbsp;</a>');
+					var id = $('<input type="hidden" name="posids" value="0"/>');
+					
+					var td1 = $('<td/>').append(check);
+					var td2 = $('<td/>').append(secname);
+					var td3 = $('<td/>').append(start.datepicker({dateFormat:'dd-mm-yy'}));
+					var td4 = $('<td/>').append(pos);
+					var td5 = $('<td/>').append(end.datepicker({dateFormat:'dd-mm-yy'}));
+					var td6 = $('<td/>').append(expyears);
+					var td7 = $('<td/>').append(expmonth);
+					var td8 = $('<td/>').append(img).append(id);
+									
+					var tr = $('<tr/>').append(td1).append(td2).append(td3).append(td4).append(td5).append(td6).append(td7).append(td8);
+					
+					bodi.append(tr);
+				}
+			});
+			
+			$("#posDell").click(function(){
+				$("#posBody > tr").each(function(rIndex,row){
+					$(row).children("td").each(function(tIndex,td){
+						if(tIndex == 0){
+							$(td).children("input").each(function(){
+								if($(this).prop("checked")){
+									$(row).remove();
+									return;
+								}
+							});
+						}
+					});
+				});
+			});
+			
+			$("#posDelAll").click(function(){
+				$("#posBody").empty();
+			});
+			
+			$("#famAdd").click(function(){
+				var bodi = $("#famBody");
+				if(bodi){
+					var check = $('<input name="secchecks" type="checkbox" style="width:15px;"/>');
+					var name = $('<input name="famnames" style="width:98%;"/>');
+					var type = $('<input name="famtypes" style="width:98%;"/>');
+					var date = $('<input name="famdates" class="dates" style="width:98%;"/>');
+					var img = $('<a href="#" disabled="true">&nbsp;</a>');
+					var id = $('<input type="hidden" name="famids" value="0"/>');
+					
+					var td1 = $('<td/>').append(check);
+					var td2 = $('<td/>').append(name);
+					var td3 = $('<td/>').append(type);
+					var td4 = $('<td/>').append(date.datepicker({dateFormat:'dd-mm-yy'}));
+					var td5 = $('<td/>').append(img).append(id);
+									
+					var tr = $('<tr/>').append(td1).append(td2).append(td3).append(td4).append(td5);
+					
+					bodi.append(tr);
+				}
+			});
+			
+			$("#famDell").click(function(){
+				$("#famBody > tr").each(function(rIndex,row){
+					$(row).children("td").each(function(tIndex,td){
+						if(tIndex == 0){
+							$(td).children("input").each(function(){
+								if($(this).prop("checked")){
+									$(row).remove();
+									return;
+								}
+							});
+						}
+					});
+				});
+			});
+			
+			$("#famDelAll").click(function(){
+				$("#famBody").empty();
+			});
+			
+			$("#eduAdd").click(function(){
+				var bodi = $("#eduBody");
+				if(bodi){
+					var check = $('<input name="educhecks" type="checkbox" style="width:15px;"/>');
+					var start = $('<input name="edustarts" style="width:98%;"/>');
+					var end = $('<input name="eduends" style="width:98%;"/>');
+					var name = $('<input name="edunames" style="width:98%;"/>');
+					var img = $('<a href="#" disabled="true">&nbsp;</a>');
+					var id = $('<input type="hidden" name="eduids" value="0"/>');
+					
+					var type = $('<select name="edulevels" style="width:98%;"/>')
+								.append($('<option value="D1">D1</option>'))
+								.append($('<option value="D2">D2</option>'))
+								.append($('<option value="D3">D3</option>'))
+								.append($('<option value="D4">D4</option>'))
+								.append($('<option value="S1">S1</option>'))
+								.append($('<option value="S2">S2</option>'))
+								.append($('<option value="S3">S3</option>'));
+					
+					var td1 = $('<td/>').append(check);
+					var td2 = $('<td/>').append(type);
+					var td3 = $('<td/>').append(name);
+					var td4 = $('<td/>').append(start);
+					var td5 = $('<td/>').append(end);
+					var td6 = $('<td/>').append(img).append(id);
+									
+					var tr = $('<tr/>').append(td1).append(td2).append(td3).append(td4).append(td5).append(td6);
+					
+					bodi.append(tr);
+				}
+			});
+			
+			$("#eduDell").click(function(){
+				$("#eduBody > tr").each(function(rIndex,row){
+					$(row).children("td").each(function(tIndex,td){
+						if(tIndex == 0){
+							$(td).children("input").each(function(){
+								if($(this).prop("checked")){
+									$(row).remove();
+									return;
+								}
+							});
+						}
+					});
+				});
+			});
+			
+			$("#eduDelAll").click(function(){
+				$("#eduBody").empty();
+			});
+			
+			$("#researchAdd").click(function(){
+				var bodi = $("#researchBody");
+				if(bodi){
+					var check = $('<input name="educhecks" type="checkbox" style="width:15px;"/>');
+					var title = $('<input name="researchtitles" style="width:98%;"/>');
+					var member = $('<input name="researchmemberships" style="width:98%;"/>');
+					var period = $('<input name="researchperiods" style="width:98%;"/>');
+					var img = $('<a href="#" disabled="true">&nbsp;</a>');
+					var id = $('<input type="hidden" name="researchids" value="0"/>');
+					
+					var founder = $('<select name="researchfunders" style="width:98%;"/>')
+								.append($('<option value="Diknas">Diknas</option>'))
+								.append($('<option value="Institusi Luar Diknas">Institusi Luar Diknas</option>'))
+								.append($('<option value="Institusi Luar Negri">Institusi Luar Negri</option>'))
+								.append($('<option value="Biaya Sendiri">Biaya Sendiri</option>'));
+					
+					var td1 = $('<td/>').append(check);
+					var td2 = $('<td/>').append(title);
+					var td3 = $('<td/>').append(member);
+					var td4 = $('<td/>').append(founder);
+					var td5 = $('<td/>').append(period);
+					var td6 = $('<td/>').append(img).append(id);
+									
+					var tr = $('<tr/>').append(td1).append(td2).append(td3).append(td4).append(td5).append(td6);
+					
+					bodi.append(tr);
+				}
+			});
+			
+			$("#researchDell").click(function(){
+				$("#researchBody > tr").each(function(rIndex,row){
+					$(row).children("td").each(function(tIndex,td){
+						if(tIndex == 0){
+							$(td).children("input").each(function(){
+								if($(this).prop("checked")){
+									$(row).remove();
+									return;
+								}
+							});
+						}
+					});
+				});
+			});
+			
+			$("#researchDelAll").click(function(){
+				$("#researchBody").empty();
+			});
+			
+			$("#pubAdd").click(function(){
+				var bodi = $("#pubBody");
+				if(bodi){
+					var check = $('<input name="educhecks" type="checkbox" style="width:15px;"/>');
+					var title = $('<input name="pubtitles" style="width:98%;"/>');
+					var period = $('<input name="pubperiods" style="width:98%;"/>');
+					var img = $('<a href="#" disabled="true">&nbsp;</a>');
+					var id = $('<input type="hidden" name="pubids" value="0"/>');
+					
+					var type = $('<select name="pubpublishs" style="width:98%;"/>')
+								.append($('<option value="Seminar">Seminar</option>'))
+								.append($('<option value="Prusiding">Prusiding</option>'))
+								.append($('<option value="Jurnal">Jurnal</option>'));
+					
+					var td1 = $('<td/>').append(check);
+					var td2 = $('<td/>').append(title);
+					var td3 = $('<td/>').append(type);
+					var td4 = $('<td/>').append(period);
+					var td5 = $('<td/>').append(img).append(id);
+									
+					var tr = $('<tr/>').append(td1).append(td2).append(td3).append(td4).append(td5);
+					
+					bodi.append(tr);
+				}
+			});
+			
+			$("#pubDell").click(function(){
+				$("#pubBody > tr").each(function(rIndex,row){
+					$(row).children("td").each(function(tIndex,td){
+						if(tIndex == 0){
+							$(td).children("input").each(function(){
+								if($(this).prop("checked")){
+									$(row).remove();
+									return;
+								}
+							});
+						}
+					});
+				});
+			});
+			
+			$("#pubDelAll").click(function(){
+				$("#pubBody").empty();
+			});
+		});
+	/*]]>*/
+	</script>
+</head>
+<body>
+<div class="main">
+ 	<div class="header">
+		<div class="header_resize" th:include="fragment :: menu('','','active','','')"/>
+	</div>
+
+  	<div class="content">
+    	<div class="content_resize">
+			<div class="sidebar" th:include="fragment :: sidebar"/>    
+			<div class="mainbar" style="overflow:auto;">
+				<h2>&nbsp;&nbsp;&nbsp;<th:block th:text="${title}"/></h2>
+				<div id="tabs">
+					<form action="/dosenedit" method="post">
+					<div id="toolbar" style="border-bottom: solid black 1px;width: 100%">
+						<button id="closeme" type="button" class="ui-button ui-widget ui-corner-all" th:title="@{/dosen(type=${type},key)}">
+	    					<span class="ui-icon ui-icon-closethick"></span> Tutup
+		 				</button>
+		 				<button class="ui-button ui-widget ui-corner-all" type="submit">
+	    					<span class="ui-icon ui-icon-document"></span> Simpan
+		 				</button>
+		 				<button id="print" class="ui-button ui-widget ui-corner-all" type="button">
+	    					<span class="ui-icon ui-icon-print"></span> Print
+		 				</button>
+		 				<input type="hidden" name="id" th:value="${emp.id}"/>
+			    		<input type="hidden" name="type" th:value="${type}"/>
+						</div>
+						<div id="doc-form">
+							<div class="form-group">
+								<label for="name">NAMA</label>
+								<input id="name" name="nama" th:value="${emp.nama}"/>
+								
+								<label for="nidn">NIDN</label>
+								<input id="nidn" name="nidn" th:value="${emp.nidn}"/>
+								
+								<label for="nip">NIP</label>
+								<input id="nip" name="nip" th:value="${emp.nip}" />
+								
+								<label for="nip">AGAMA</label>
+								<input id="nip" name="agama" th:value="${emp.agama}" />
+
+								<label>JENIS KELAMIN</label>
+								<label for="laki">Laki-laki</label>
+								<input id="laki" type="radio" name="lakilaki" th:checked="${emp.lakilaki}" value="true"/>
+								<label for="perempuan">Perempuan</label>
+								<input id="perempuan" type="radio" name="lakilaki"  th:checked="${not emp.lakilaki}" value="false"/>
+
+								<label for="bagian">BAGIAN</label>
+								<input id="bagian" name="bagian" th:value="${emp.bagian}"/>
+								
+								<label for="birthPlace">TEMPAT LAHIR</label>
+								<input id="birthPlace" name="tempatLahir" th:value="${emp.tempatLahir}"/>
+								
+								<label for="tglLahir">TGL LAHIR</label>
+								<input class="date-pick" name="tglLahir" th:value="${emp.tglLahir}?${#dates.format(emp.tglLahir,'dd-MM-yyyy')}" id="tglLahir"/>
+								
+								<label for="alamat">ALAMAT RUMAH</label>
+								<input id="alamat" name="alamat" th:value="${emp.alamat}"/>
+								
+								<label for="bagian">TELP/FAX/HP</label>
+								<input id="kontak" name="kontak" th:value="${emp.kontak}"/>								
+							</div>
+						</div>
+						<div id="doc-family">
+							<div style="padding-left: 10px;padding-bottom: 0;margin-bottom: 0;">
+								<a id="famAdd" style="cursor: pointer;"><span class="ui-icon ui-icon-plusthick"></span><span>Tambah</span></a>
+								<a id="famDell" style="cursor: pointer;"><span class="ui-icon ui-icon-closethick"></span><span>Hapus</span></a>
+								<a id="famDelAll" style="cursor: pointer;"><span class="ui-icon ui-icon-circle-close"></span><span>Hapus Semua</span></a>
+							</div>
+							<table cellspacing="0" width="95%">
+							<thead style="border: none;">
+							<tr>
+								<th width="2%">&nbsp;</th>
+								<th width="48%">Nama</th>
+								<th width="15%">Keterangan</th>
+								<th width="10%">Tanggal</th>
+							</tr>
+							</thead>
+							<tbody id="famBody" style="border:none">
+							<tr th:each="pos:${emp.familys}">
+								<td><input style="width: 15px;" type="checkbox" class="poschecks" name="poschecks"/></td>
+								<td><input style="width: 98%;" name="famnames" th:value="${pos.name}"/></td>
+								<td><input style="width: 98%;" name="famtypes" th:value="${pos.note}"/></td>
+								<td><input style="width: 98%;" name="famdates" class="dates" th:value="${pos.birthDate}?${#dates.format(pos.birthDate,'dd-MM-yyyy')}"/></td>
+							</tr>
+							</tbody>
+							</table>
+						</div>
+						<div id="doc-position">
+							<div style="padding-left: 10px;padding-bottom: 0;margin-bottom: 0;">
+								<a id="posAdd" style="cursor: pointer;"><span class="ui-icon ui-icon-plusthick"></span><span>Tambah</span></a>
+								<a id="posDell" style="cursor: pointer;"><span class="ui-icon ui-icon-closethick"></span><span>Hapus</span></a>
+								<a id="posDelAll" style="cursor: pointer;"><span class="ui-icon ui-icon-circle-close"></span><span>Hapus Semua</span></a>
+							</div>
+							<table cellspacing="0" width="95%">
+							<thead style="border: none;">
+							<tr>
+								<th rowspan="2" width="5%">&nbsp;</th>
+								<th rowspan="2" width="10%">Golongan</th>
+								<th rowspan="2" width="10%">TMT</th>
+								<th rowspan="2">Jabatan</th>
+								<th rowspan="2" width="10%">TMT</th>
+								<th colspan="2" width="20%">MASA KERJA</th>
+								<th rowspan="2" width="5%">Gambar</th>
+							</tr>
+							<tr>
+								<th width="10%">THN</th>
+								<th width="10%">BLN</th>
+							</tr>
+							</thead>
+							<tbody id="posBody" style="border:none">
+							<tr th:each="pos:${emp.positions}">
+								<td><input style="width: 15px;" type="checkbox" class="poschecks" name="poschecks"/></td>
+								<td><input style="width: 98%;" name="secnames" th:value="${pos.section}"/></td>
+								<td><input style="width: 97%;" name="secstarts" class="dates" th:value="${pos.start}?${#dates.format(pos.start,'dd-MM-yyyy')}"/></td>
+								<td><input style="width: 98%;" name="posnames" th:value="${pos.position}"/></td>
+								<td><input style="width: 97%;" name="posstarts" class="dates" th:value="${pos.end}?${#dates.format(pos.end,'dd-MM-yyyy')}"/></td>
+								<td><input style="width: 98%;" name="expyears" th:value="${pos.yearExperience}"/></td>
+								<td><input style="width: 98%;" name="expmonths" th:value="${pos.monthExperience}"/></td>
+								<td>
+									<a th:href="@{/positionview(id=${pos.id})}"><span class="ui-icon ui-icon-search"></span></a>
+									<input type="hidden" name="posids" th:value="${pos.id}"/>
+								</td>
+							</tr>
+							</tbody>
+							</table>
+						</div>
+						<div id="doc-education" style="overflow: auto;">
+							<div style="padding-left: 10px;padding-bottom: 0;margin-bottom: 0;">
+								<a id="eduAdd" style="cursor: pointer;"><span class="ui-icon ui-icon-plusthick"></span><span>Tambah</span></a>
+								<a id="eduDell" style="cursor: pointer;"><span class="ui-icon ui-icon-closethick"></span><span>Hapus</span></a>
+								<a id="eduDelAll" style="cursor: pointer;"><span class="ui-icon ui-icon-circle-close"></span><span>Hapus Semua</span></a>
+							</div>
+							<table cellspacing="0" width="95%">
+							<thead style="border: none;">
+							<tr>
+								<th>&nbsp;</th>
+								<th>Jenis</th>
+								<th width="50%">Nama Perguruan Tinggi</th>
+								<th>Tahun Mulai</th>
+								<th>Tahun Selesai</th>
+								<th>Gambar</th>
+							</tr>
+							</thead>
+							<tbody id="eduBody" style="border:none">
+							<tr th:each="pos:${emp.educations}">
+								<td><input style="width: 15px;"  name="educhecks" type="checkbox"/></td>
+								<td>
+									<select name="edulevels" style="width: 100px;">
+										<option th:selected="${pos.level == T(com.shara.hr.dm.EducationLevel).D1}">D1</option>
+										<option th:selected="${pos.level == T(com.shara.hr.dm.EducationLevel).D2}">D2</option>
+										<option th:selected="${pos.level == T(com.shara.hr.dm.EducationLevel).D3}">D3</option>
+										<option th:selected="${pos.level == T(com.shara.hr.dm.EducationLevel).D4}">D4</option>
+										<option th:selected="${pos.level == T(com.shara.hr.dm.EducationLevel).S1}">S1</option>
+										<option th:selected="${pos.level == T(com.shara.hr.dm.EducationLevel).S2}">S2</option>
+										<option th:selected="${pos.level == T(com.shara.hr.dm.EducationLevel).S3}">S3</option>
+									</select>
+								</td>
+								<td><input style="width: 98%;" name="edunames" th:value="${pos.name}"/></td>
+								<td><input style="width: 98%;" name="edustarts" th:value="${pos.yearStart}"/></td>
+								<td><input style="width: 98%;" name="eduends" th:value="${pos.yearEnd}"/></td>
+								<td>
+									<a th:href="@{/educationview(id=${pos.id})}"><span class="ui-icon ui-icon-search"></span></a>
+									<input type="hidden" name="eduids" th:value="${pos.id}"/>
+								</td>
+							</tr>
+							</tbody>
+							</table>
+						</div>
+						<div id="doc-research" style="overflow: auto;">
+							<div style="padding-left: 10px;padding-bottom: 0;margin-bottom: 0;">
+								<a id="researchAdd" style="cursor: pointer;"><span class="ui-icon ui-icon-plusthick"></span><span>Tambah</span></a>
+								<a id="researchDell" style="cursor: pointer;"><span class="ui-icon ui-icon-closethick"></span><span>Hapus</span></a>
+								<a id="researchDelAll" style="cursor: pointer;"><span class="ui-icon ui-icon-circle-close"></span><span>Hapus Semua</span></a>
+							</div>
+							<table cellspacing="0" width="95%">
+							<thead style="border: none;">
+							<tr>
+								<th width="15">&nbsp;</th>
+								<th>Judul</th>
+								<th>Keanggotaan</th>
+								<th>Sumber Dana</th>
+								<th width="75">Tahun</th>
+								<th width="35">Gambar</th>
+							</tr>
+							</thead>
+							<tbody id="researchBody" style="border:none">
+							<tr th:each="pos:${emp.researchs}">
+								<td><input style="width: 15px;"  name="educhecks" type="checkbox"/></td>
+								<td><input style="width: 98%;" name="researchtitles" th:value="${pos.title}"/></td>
+								<td><input style="width: 98%;" name="researchmemberships" th:value="${pos.membership}"/></td>
+								<td>
+									<select name="researchfunders" style="width: 98%;">
+										<option value="Diknas" th:selected="${pos.funders == 'Diknas'}">Diknas</option>
+										<option value="Institusi Luar Diknas" th:selected="${pos.funders == 'Institusi Luar Diknas'}">Institusi Luar Diknas</option>
+										<option value="Institusi Luar Negeri" th:selected="${pos.funders == 'Institusi Luar Negeri'}">Institusi Luar Negeri</option>
+										<option value="Biaya Sendiri" th:selected="${pos.funders == 'Biaya Sendiri'}">Biaya Sendiri</option>
+									</select>
+								</td>
+								<td><input style="width: 98%;" name="researchperiods" th:value="${pos.period}"/></td>
+								<td>
+									<a th:href="@{/researchview(id=${pos.id})}"><span class="ui-icon ui-icon-search"></span></a>
+									<input type="hidden" name="researchids" th:value="${pos.id}"/>
+								</td>
+							</tr>
+							</tbody>
+							</table>
+						</div>
+						<div id="doc-publication">
+							<div style="padding-left: 10px;padding-bottom: 0;margin-bottom: 0;">
+								<a id="pubAdd" style="cursor: pointer;"><span class="ui-icon ui-icon-plusthick"></span><span>Tambah</span></a>
+								<a id="pubDell" style="cursor: pointer;"><span class="ui-icon ui-icon-closethick"></span><span>Hapus</span></a>
+								<a id="pubDelAll" style="cursor: pointer;"><span class="ui-icon ui-icon-circle-close"></span><span>Hapus Semua</span></a>
+							</div>
+							<table cellspacing="0" width="95%">
+							<thead style="border: none;">
+							<tr>
+								<th>&nbsp;</th>
+								<th>Judul Publikasi</th>
+								<th>Publikasi</th>
+								<th>Tahun</th>
+								<th>Gambar</th>
+							</tr>
+							</thead>
+							<tbody id="pubBody" style="border:none">
+							<tr th:each="pos:${emp.publications}">
+								<td><input style="width: 15px;"  name="educhecks" type="checkbox"/></td>
+								<td><input style="width: 98%;" name="pubtitles" th:value="${pos.title}"/></td>
+								<td>
+									<select name="pubpublishs" style="width: 98%;">
+										<option value="Seminar" th:selected="${pos.publishedIn == 'Seminar'}">Seminar</option>
+										<option value="Prusiding" th:selected="${pos.publishedIn == 'Prusiding'}">Prusiding</option>
+										<option value="Jurnal" th:selected="${pos.publishedIn == 'Jurnal'}">Jurnal</option>
+									</select>
+								</td>
+								<td><input style="width: 98%;" name="pubperiods" th:value="${pos.period}"/></td>
+								<td>
+									<a th:href="@{/publicationview(id=${pos.id})}"><span class="ui-icon ui-icon-search"></span></a>
+									<input type="hidden" name="pubids" th:value="${pos.id}"/>
+								</td>
+							</tr>
+							</tbody>
+							</table>
+						</div>
+						<ul>
+							<li><a href="#doc-form">PROFIL</a></li>
+							<li><a href="#doc-family">DATA KELUARGA</a></li>
+							<li><a href="#doc-position">JABATAN DAN GOLONGAN</a></li>
+							<li><a href="#doc-education">PENDIDIKAN</a></li>
+							<li><a href="#doc-research">PENELITIAN</a></li>
+							<li><a href="#doc-publication">PUBLIKASI</a></li>
+						</ul>
+						</form>
+					</div>
+        		</div>
+      			<div class="clr"></div>
+    	</div>
+  	</div>
+  	<div class="footer" th:include="fragment :: footer"/>
+</div>
+</body>
+</html>
