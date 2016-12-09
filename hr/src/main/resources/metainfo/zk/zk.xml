@@ -2,7 +2,7 @@
     <config-name>belian-config</config-name>
 	<richlet>
 	    <richlet-name>Desktop</richlet-name>
-	    <richlet-class>com.shara.hr.ui.Desktop</richlet-class>
+	    <richlet-class>com.kratonsolution.cis.ui.Desktop</richlet-class>
 	</richlet>
 	<richlet-mapping>
 	    <richlet-name>Desktop</richlet-name>
