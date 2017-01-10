@@ -62,6 +62,7 @@ public class TeacherView extends Vlayout
 		
 		setHflex("1");
 		setVflex("1");
+		setStyle("overflow:auto");
 		
 		Label title = new Label(type.getDisplay());
 		title.setStyle("color:orange;font-weight:bolder;font-size:18px;padding-bottom:25px;");

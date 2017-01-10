@@ -48,9 +48,9 @@ public class TeacherService
 	{
 		if(Strings.isNullOrEmpty(filter) && type == null)
 			return findAll();
-		else if(Strings.isNullOrEmpty(filter))
+		else if(Strings.isNullOrEmpty(filter) && type != null)
 			return repository.findAllByType(type);
-		else if(type == null)
+		else if(!Strings.isNullOrEmpty(filter) && type == null)
 			return findAll(filter);
 		
 		return repository.findAll(type,filter);

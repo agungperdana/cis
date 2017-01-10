@@ -33,11 +33,12 @@ public class Formtoolbar extends Toolbar
 		setStyle("background-color:blackeel;font-size:10px;");
 		setWidth("70px");
 		setVflex("1");
+		
 		appendChild(form);
 		appendChild(family);
 		appendChild(golongan);
 		appendChild(jabatan);
-		appendChild(sk);
+//		appendChild(sk);
 		appendChild(education);
 		appendChild(publication);
 		appendChild(research);
